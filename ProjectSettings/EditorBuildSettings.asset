@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/EndlessAttack.unity
+    guid: 43ebbb63bd86e414c99d48dbdb2fd38c
   m_configObjects: {}

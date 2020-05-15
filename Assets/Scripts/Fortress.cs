@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Fortress : MonoBehaviour
 {
-
-    private float rotationSpeed = 30f;
+    [SerializeField] private GameObject shieldGenerator = null;
+    private float rotationSpeed = 15f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +16,13 @@ public class Fortress : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0f, 0f, rotationSpeed * Time.deltaTime));
+        Vector3 rotationVector = new Vector3(0f, 0f, rotationSpeed * Time.deltaTime);
+        transform.Rotate(rotationVector);
+        CounterRotateShield(rotationVector);
+    }
+
+    private void CounterRotateShield(Vector3 fortressRotation)
+    {
+        shieldGenerator.transform.Rotate(-2 * fortressRotation);
     }
 }
