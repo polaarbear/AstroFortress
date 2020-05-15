@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Input\GameControls.cs" />
+    <Compile Include="Assets\Scripts\Fortress.cs" />
     <Compile Include="Assets\Scripts\GameMaster.cs" />
     <Compile Include="Assets\Scripts\PlayerShip.cs" />
     <Reference Include="UnityEngine">

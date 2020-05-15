@@ -36,19 +36,8 @@
                 },
                 {
                     "name": "",
-                    "id": "02722b51-78d0-4f67-a391-460bb2160fd1",
-                    "path": "<XInputController>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleThruster",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b9272c41-61a6-43c0-b201-74d12cee4d89",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -90,39 +79,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Xbox",
-                    "id": "41f4b3d7-523c-434e-acfb-dd2e3fbbbad4",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateShip",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "084dfacd-6179-4fb0-b697-7a7f73d1ef66",
-                    "path": "<XInputController>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateShip",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "ef9eb966-f6a9-40f9-946c-0df279d92470",
-                    "path": "<XInputController>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateShip",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "GamePad",
                     "id": "73098df1-e1fa-41b5-8554-ff455d6e832a",
                     "path": "1DAxis",
@@ -136,7 +92,7 @@
                 {
                     "name": "negative",
                     "id": "245882be-8a10-4139-a169-607a6c7dd7b1",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -147,7 +103,7 @@
                 {
                     "name": "positive",
                     "id": "a6ce4fa9-9cd9-48b2-b643-bbc51fb302d4",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
