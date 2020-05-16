@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
+
     [SerializeField] private Camera fortressCam = null;
-    private float cameraHeight;
     private float cameraWidth;
+    private float cameraHeight;
 
     [SerializeField] private PlayerShip playerShip = null;
+    [SerializeField] private Fortress fortress = null;
 
     private void Awake()
     {
-        cameraHeight = fortressCam.orthographicSize * 2;
+        float screenHeight = Screen.height;
+        fortressCam.orthographicSize = Screen.height / 120;
+        cameraHeight = fortressCam.orthographicSize * 2f;
         cameraWidth = cameraHeight * fortressCam.aspect;
+        fortressCam.transform.position = new Vector3(cameraWidth / 2f, cameraHeight / 2f, fortressCam.transform.position.z);
+        fortress.transform.position = new Vector3(cameraWidth / 2f, cameraHeight / 2f, 0f);
     }
     // Start is called before the first frame update
     void Start()
