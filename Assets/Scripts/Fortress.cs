@@ -17,7 +17,6 @@ public class Fortress : MonoBehaviour
     void Update()
     {
         Vector3 rotationVector = new Vector3(0f, 0f, rotationSpeed * Time.deltaTime);
-        transform.Rotate(rotationVector);
         CounterRotateShield(rotationVector);
     }
 

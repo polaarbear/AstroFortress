@@ -11,26 +11,25 @@ public class PlayerShip : MonoBehaviour
 {
     private GameControls gameControls;
     [SerializeField] private Rigidbody2D shipBody = null;
-    [SerializeField] private ThrustBoost[] thrustersLR = new ThrustBoost[2];
-    [SerializeField] private ThrustBoost[] boostersLR = new ThrustBoost[2];
+    [SerializeField] private Thruster mainThruster = null;
+    [SerializeField] private Thruster[] sideThrusters = new Thruster[2];
 
     private float rotationFactor = 0f;
 
-    private bool thrustersReady = true;
-    private bool thrustersEngaged = false;
+    private bool mainThrusterReady = true;
+    private bool mainThrusterEngaged = false;
     private float thrusterInterval = .1f;
     private float thrusterCooldown = 0f;
-    private float thrusterPower = 1.25f;
-    private float boosterPower = 500f;
+    private float thrusterPower = 5f;
+    private float boosterPower = 300f;
 
     private void Awake()
     {
         gameControls = new GameControls();
-        gameControls.InGameControls.ToggleThruster.performed += toggleThruster => thrustersEngaged = !thrustersEngaged;
-        foreach (ThrustBoost thruster in thrustersLR)
-            thruster.Toggle(false);
-        foreach (ThrustBoost booster in boostersLR)
-            booster.Toggle(false);
+        gameControls.InGameControls.ToggleThruster.performed += toggleThruster => mainThrusterEngaged = !mainThrusterEngaged;
+        mainThruster.Toggle(false);
+        foreach (Thruster sideThrust in sideThrusters)
+            sideThrust.Toggle(false);
     }
 
     // Start is called before the first frame update
@@ -67,20 +66,17 @@ public class PlayerShip : MonoBehaviour
         rotationFactor = gameControls.InGameControls.RotateShip.ReadValue<float>();
         if (Mathf.Abs(rotationFactor) > 0.2f)
         {
-            if(shipBody.velocity.magnitude >= 1f)
-                shipBody.AddTorque(rotationFactor * boosterPower * Time.deltaTime);
-            else
-                shipBody.AddTorque(rotationFactor * boosterPower * Time.deltaTime * 1.5f);
+            transform.Rotate(new Vector3(0f, 0f, rotationFactor * boosterPower * deltaTime));
         }
     }
 
     private void CheckThrusters(float deltaTime)
     {
-        if (thrustersEngaged)
+        if (mainThrusterEngaged)
         {
-            if (thrustersReady)
+            if (mainThrusterReady)
             {
-                thrustersReady = false;
+                mainThrusterReady = false;
                 shipBody.velocity += GetThrustVector() * thrusterPower;
             }
             else
@@ -88,33 +84,31 @@ public class PlayerShip : MonoBehaviour
                 thrusterCooldown += deltaTime;
                 if (thrusterCooldown >= thrusterInterval)
                 {
-                    thrustersReady = true;
+                    mainThrusterReady = true;
                     thrusterCooldown = 0f;
                 }
             }
-            foreach(ThrustBoost thruster in thrustersLR)
-                thruster.Toggle(true);
+            mainThruster.Toggle(true);
         }
         else
         {
-            foreach (ThrustBoost thruster in thrustersLR)
-                thruster.Toggle(false);              
+            mainThruster.Toggle(false);
         }
 
         if (rotationFactor > .2f)
         {
-            boostersLR[0].Toggle(false);
-            boostersLR[1].Toggle(true);
+            sideThrusters[0].Toggle(false);
+            sideThrusters[1].Toggle(true);
         }
         else if (rotationFactor < -.2f)
         {
-            boostersLR[0].Toggle(true);
-            boostersLR[1].Toggle(false);
+            sideThrusters[0].Toggle(true);
+            sideThrusters[1].Toggle(false);
         }
         else
         {
-            boostersLR[0].Toggle(false);
-            boostersLR[1].Toggle(false);
+            sideThrusters[0].Toggle(false);
+            sideThrusters[1].Toggle(false);
         }
     }
 
