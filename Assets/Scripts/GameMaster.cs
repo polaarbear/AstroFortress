@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
-
+    [SerializeField] private LoaderPrefabs prefabLoader = null;
     [SerializeField] private Camera fortressCam = null;
     private float cameraWidth;
-    private float cameraHeight;
+    private float cameraHeight = 18f;
 
-    [SerializeField] private PlayerShip playerShip = null;
-    [SerializeField] private Fortress fortress = null;
+    private PlayerShip playerShip = null;
+    private Fortress fortress = null;
+    private ShieldGenerator shieldGenerator = null;
 
     private void Awake()
     {
-        float screenHeight = Screen.height;
-        fortressCam.orthographicSize = Screen.height / 120;
-        cameraHeight = fortressCam.orthographicSize * 2f;
+        AlignCamera();
+        LoadGameObjects();
+    }
+
+    private void AlignCamera()
+    {
         cameraWidth = cameraHeight * fortressCam.aspect;
-        Vector3 fortressPos = new Vector3(cameraWidth / 2f, cameraHeight / 2f, fortressCam.transform.position.z);
-        //fortressCam.transform.position = new Vector3(cameraWidth / 2f, cameraHeight / 2f, fortressCam.transform.position.z);
-        fortress.transform.position = fortressPos;
+        Vector3 centerScreen = new Vector3(cameraWidth / 2f, cameraHeight / 2f, fortressCam.transform.position.z);
+        fortressCam.transform.position = centerScreen;
+    }
+
+    private void LoadGameObjects()
+    {
+        playerShip = Instantiate(prefabLoader.GetPlayerShipPrefab(), transform);
+        LoadEnemyShields();
+    }
+
+    private void LoadEnemyShields()
+    {
+        shieldGenerator = Instantiate(prefabLoader.GetShieldGeneratorPrefab(), transform);
+        shieldGenerator.LoadShieldBars(prefabLoader.GetShieldBarPrefab(), prefabLoader.GetShieldGemPrefab());
     }
     // Start is called before the first frame update
     void Start()
@@ -31,7 +46,7 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PerformBoundsCheck();
+        PerformBoundsCheck();        
     }
 
     private void PerformBoundsCheck()

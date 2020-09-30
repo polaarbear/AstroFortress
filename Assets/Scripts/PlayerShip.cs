@@ -20,8 +20,8 @@ public class PlayerShip : MonoBehaviour
     private bool mainThrusterEngaged = false;
     private float thrusterInterval = .1f;
     private float thrusterCooldown = 0f;
-    private float thrusterPower = 5f;
-    private float boosterPower = 300f;
+    private float thrusterPower = 4f;
+    private float boosterPower = 250f;
 
     private void Awake()
     {
