@@ -20,6 +20,7 @@ public class ShieldGenerator : MonoBehaviour
 
     private void Awake()
     {
+        name = "ShieldGenerator";
         LoadRingOffsets();
     }
 
@@ -74,7 +75,7 @@ public class ShieldGenerator : MonoBehaviour
         ringTwoOffsets.Add(new Tuple<float, float, float>(-1.7f, 1.7f, 45f));
     }
 
-    public void LoadShieldBars(ShieldBar prefabShieldBar, ShieldGem prefabShieldGem)
+    public void StartShield(ShieldBar prefabShieldBar, ShieldGem prefabShieldGem)
     {
         for(int ring = 0; ring < 3; ring++)
         {

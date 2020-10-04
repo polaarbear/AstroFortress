@@ -5,10 +5,11 @@ using UnityEngine;
 public class GameMaster : MonoBehaviour
 {
     [SerializeField] private LoaderPrefabs prefabLoader = null;
-    [SerializeField] private Camera fortressCam = null;
+    [SerializeField] private Camera gameCam = null;
     private float cameraWidth;
     private float cameraHeight = 18f;
 
+    private int playerLevel = 3;
     private PlayerShip playerShip = null;
     private Fortress fortress = null;
     private ShieldGenerator shieldGenerator = null;
@@ -21,21 +22,39 @@ public class GameMaster : MonoBehaviour
 
     private void AlignCamera()
     {
-        cameraWidth = cameraHeight * fortressCam.aspect;
-        Vector3 centerScreen = new Vector3(cameraWidth / 2f, cameraHeight / 2f, fortressCam.transform.position.z);
-        fortressCam.transform.position = centerScreen;
+        cameraWidth = cameraHeight * gameCam.aspect;
+        Vector3 centerScreen = new Vector3(cameraWidth / 2f, cameraHeight / 2f, gameCam.transform.position.z);
+        gameCam.transform.position = centerScreen;
     }
 
     private void LoadGameObjects()
     {
-        playerShip = Instantiate(prefabLoader.GetPlayerShipPrefab(), transform);
-        LoadEnemyShields();
+        LoadPlayer();
+        LoadEnemy();
     }
 
-    private void LoadEnemyShields()
+    private void LoadPlayer()
     {
+        playerShip = Instantiate(prefabLoader.GetPlayerShipPrefab(), transform);
+        List<LaserCannon> laserCannons = new List<LaserCannon>();
+        for(int lvl = 0; lvl < playerLevel; lvl++)
+        {
+            LaserCannon newCannon = Instantiate(prefabLoader.GetLaserCannonPrefab(), playerShip.transform);
+            newCannon.name = "LaserCannon" + (lvl + 1).ToString();
+            laserCannons.Add(newCannon);
+        }
+        playerShip.AttachCannons(laserCannons);
+    }
+
+    private void LoadEnemy()
+    {
+        fortress = Instantiate(prefabLoader.GetFortressPrefab(), transform);
         shieldGenerator = Instantiate(prefabLoader.GetShieldGeneratorPrefab(), transform);
-        shieldGenerator.LoadShieldBars(prefabLoader.GetShieldBarPrefab(), prefabLoader.GetShieldGemPrefab());
+        shieldGenerator.StartShield(prefabLoader.GetShieldBarPrefab(), prefabLoader.GetShieldGemPrefab());
+        fortress.transform.position = shieldGenerator.transform.position = 
+            new Vector3(
+                gameCam.transform.position.x,
+                gameCam.transform.position.y, 0f);
     }
     // Start is called before the first frame update
     void Start()

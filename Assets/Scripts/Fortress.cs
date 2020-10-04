@@ -6,7 +6,11 @@ public class Fortress : MonoBehaviour
 {
     
     private float rotationSpeed = 15f;
-    [SerializeField] ShieldGenerator shieldGenerator = null;
+
+    private void Awake()
+    {
+        name = "Fortress";
+    }
 
     // Start is called before the first frame update
     void Start()

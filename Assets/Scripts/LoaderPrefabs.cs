@@ -6,14 +6,22 @@ using UnityEngine;
 public class LoaderPrefabs : ScriptableObject
 {
     [SerializeField] private PlayerShip PrefabPlayerShip = null;
+    [SerializeField] private LaserCannon PrefabLaserCannon = null;
 
     [SerializeField] private ShieldGenerator PrefabShieldGenerator = null;
     [SerializeField] private ShieldBar PrefabShieldBar = null;
     [SerializeField] private ShieldGem PrefabShieldGem = null;
 
+    [SerializeField] private Fortress PrefabFortress = null;
+
     public PlayerShip GetPlayerShipPrefab()
     {
         return PrefabPlayerShip;
+    }
+
+    public LaserCannon GetLaserCannonPrefab()
+    {
+        return PrefabLaserCannon;
     }
 
     public ShieldGenerator GetShieldGeneratorPrefab()
@@ -29,5 +37,10 @@ public class LoaderPrefabs : ScriptableObject
     public ShieldGem GetShieldGemPrefab()
     {
         return PrefabShieldGem;
+    }
+
+    public Fortress GetFortressPrefab()
+    {
+        return PrefabFortress;
     }
 }

@@ -13,6 +13,7 @@ public class PlayerShip : MonoBehaviour
     [SerializeField] private Rigidbody2D shipBody = null;
     [SerializeField] private Thruster mainThruster = null;
     [SerializeField] private Thruster[] sideThrusters = new Thruster[2];
+    private List<LaserCannon> laserCannons = null;
 
     private float rotationFactor = 0f;
 
@@ -25,6 +26,7 @@ public class PlayerShip : MonoBehaviour
 
     private void Awake()
     {
+        name = "PlayerShip";
         gameControls = new GameControls();
         gameControls.InGameControls.ToggleThruster.performed += toggleThruster => mainThrusterEngaged = !mainThrusterEngaged;
         mainThruster.Toggle(false);
@@ -59,6 +61,26 @@ public class PlayerShip : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
+    }
+
+    public void AttachCannons(List<LaserCannon> cannons)
+    {
+        laserCannons = cannons;
+        switch(cannons.Count)
+        {
+            case 1:
+                laserCannons[0].transform.Translate(new Vector3(.25f, 0f, 0f));
+                break;
+            case 2:
+                laserCannons[0].transform.Translate(new Vector3(0f, -0.25f, 0f));
+                laserCannons[1].transform.Translate(new Vector3(0f, 0.25f, 0f));
+                break;
+            case 3:
+                laserCannons[0].transform.Translate(new Vector3(.25f, 0f, 0f));
+                laserCannons[1].transform.Translate(new Vector3(0f, -0.25f, 0f));
+                laserCannons[2].transform.Translate(new Vector3(0f, 0.25f, 0f));
+                break;
+        }
     }
 
     private void CheckRotation(float deltaTime)

@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c33b228e86d354e9c9701dba072efd, type: 3}
   m_Name: PrefabLoader
   m_EditorClassIdentifier: Assembly-CSharp::AssetLoader
-  PrefabPlayerShip: {fileID: 6691321306698300216, guid: e0057737bec63c44abd44163f374cb49,
+  PrefabPlayerShip: {fileID: 1809648731749684892, guid: e0057737bec63c44abd44163f374cb49,
+    type: 3}
+  PrefabLaserCannon: {fileID: 3433371073426533077, guid: f49a689dd94e9284bbabc0dcdbb3968e,
     type: 3}
   PrefabShieldGenerator: {fileID: 4341900295308441503, guid: 9eb351f964d1d084993d35b524adf301,
     type: 3}
   PrefabShieldBar: {fileID: 3049708966067233235, guid: feb0e62465a46834795a034b732dd71a,
     type: 3}
   PrefabShieldGem: {fileID: 7039746884719131821, guid: 18a04d45847a36e45b24d1e821f1fd73,
+    type: 3}
+  PrefabFortress: {fileID: 630094302297433976, guid: b46d7b7218712e042b870cc743e75582,
     type: 3}
