@@ -7,6 +7,7 @@ public class LoaderPrefabs : ScriptableObject
 {
     [SerializeField] private PlayerShip PrefabPlayerShip = null;
     [SerializeField] private LaserCannon PrefabLaserCannon = null;
+    [SerializeField] private Laser PrefabLaser = null;
 
     [SerializeField] private ShieldGenerator PrefabShieldGenerator = null;
     [SerializeField] private ShieldBar PrefabShieldBar = null;
@@ -42,5 +43,10 @@ public class LoaderPrefabs : ScriptableObject
     public Fortress GetFortressPrefab()
     {
         return PrefabFortress;
+    }
+
+    public Laser GetLaserPrefab()
+    {
+        return PrefabLaser;
     }
 }

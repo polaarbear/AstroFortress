@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\LaserCannon.cs" />
     <Compile Include="Assets\Scripts\LoaderValues.cs" />
     <Compile Include="Assets\Scripts\ShieldGenerator.cs" />
+    <Compile Include="Assets\Scripts\Laser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

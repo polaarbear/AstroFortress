@@ -20,6 +20,14 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "FirePrimary",
+                    "type": "Button",
+                    "id": "03852642-b2c7-47b2-88c9-2e7dd1fa8e5c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -37,7 +45,7 @@
                 {
                     "name": "",
                     "id": "b9272c41-61a6-43c0-b201-74d12cee4d89",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -110,6 +118,17 @@
                     "action": "RotateShip",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dd7f049d-0da6-4ec4-82f8-b0f743c1fd64",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FirePrimary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

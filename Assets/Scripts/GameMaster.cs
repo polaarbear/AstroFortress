@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class GameMaster : MonoBehaviour
 {
+    /// <summary>
+    /// ASSET LOADERS
+    /// </summary>
+
     [SerializeField] private LoaderPrefabs prefabLoader = null;
+
+    /// <summary>
+    /// CAMERA
+    /// </summary>
     [SerializeField] private Camera gameCam = null;
     private float cameraWidth;
     private float cameraHeight = 18f;
+
+    private GameControls gameControls;
+    private bool primaryFireHeld = false;
+    private bool fireReady = true;
+    private float fireRate = .1f;
+    private float timeSinceFire = 0f;
 
     private int playerLevel = 3;
     private PlayerShip playerShip = null;
@@ -18,6 +32,7 @@ public class GameMaster : MonoBehaviour
     {
         AlignCamera();
         LoadGameObjects();
+        InitializeControls();
     }
 
     private void AlignCamera()
@@ -25,6 +40,23 @@ public class GameMaster : MonoBehaviour
         cameraWidth = cameraHeight * gameCam.aspect;
         Vector3 centerScreen = new Vector3(cameraWidth / 2f, cameraHeight / 2f, gameCam.transform.position.z);
         gameCam.transform.position = centerScreen;
+    }
+
+    private void InitializeControls()
+    {
+        gameControls = new GameControls();
+        gameControls.InGameControls.ToggleThruster.performed += toggleThruster => playerShip.ToggleThrusters();
+        gameControls.InGameControls.FirePrimary.performed += firePrimary => primaryFireHeld = !primaryFireHeld;
+    }
+
+    private void OnEnable()
+    {
+        gameControls.InGameControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        gameControls.InGameControls.Disable();
     }
 
     private void LoadGameObjects()
@@ -65,7 +97,28 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PerformBoundsCheck();        
+        float deltaTime = Time.deltaTime;
+        PerformBoundsCheck();
+        playerShip.CheckRotation(deltaTime, gameControls.InGameControls.RotateShip.ReadValue<float>());
+        UpdatePlayerWeapons(deltaTime);
+    }
+
+    private void UpdatePlayerWeapons(float deltaTime)
+    {
+        if(!fireReady)
+        {
+            timeSinceFire += deltaTime;
+            if(timeSinceFire >= fireRate)
+            {
+                fireReady = true;
+                timeSinceFire = 0f;
+            }
+        }
+        else if (primaryFireHeld && fireReady)
+        {
+            playerShip.FireLasers(InstantiateFiredLasers());
+            fireReady = false;
+        }
     }
 
     private void PerformBoundsCheck()
@@ -89,5 +142,15 @@ public class GameMaster : MonoBehaviour
             playerPosition.y = 0;
         }
         playerShip.transform.position = playerPosition;
+    }
+
+    private List<Laser> InstantiateFiredLasers()
+    {
+        List<Laser> firedLasers = new List<Laser>();
+        for(int laser = 0; laser < playerLevel; laser++)
+        {
+            firedLasers.Add(Instantiate(prefabLoader.GetLaserPrefab(), transform));
+        }
+        return firedLasers;
     }
 }

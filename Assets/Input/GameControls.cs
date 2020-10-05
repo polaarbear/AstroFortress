@@ -33,6 +33,14 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""FirePrimary"",
+                    ""type"": ""Button"",
+                    ""id"": ""03852642-b2c7-47b2-88c9-2e7dd1fa8e5c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -50,7 +58,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b9272c41-61a6-43c0-b201-74d12cee4d89"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -123,6 +131,17 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""action"": ""RotateShip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd7f049d-0da6-4ec4-82f8-b0f743c1fd64"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirePrimary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -133,6 +152,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_InGameControls = asset.FindActionMap("InGameControls", throwIfNotFound: true);
         m_InGameControls_ToggleThruster = m_InGameControls.FindAction("ToggleThruster", throwIfNotFound: true);
         m_InGameControls_RotateShip = m_InGameControls.FindAction("RotateShip", throwIfNotFound: true);
+        m_InGameControls_FirePrimary = m_InGameControls.FindAction("FirePrimary", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -184,12 +204,14 @@ public class @GameControls : IInputActionCollection, IDisposable
     private IInGameControlsActions m_InGameControlsActionsCallbackInterface;
     private readonly InputAction m_InGameControls_ToggleThruster;
     private readonly InputAction m_InGameControls_RotateShip;
+    private readonly InputAction m_InGameControls_FirePrimary;
     public struct InGameControlsActions
     {
         private @GameControls m_Wrapper;
         public InGameControlsActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleThruster => m_Wrapper.m_InGameControls_ToggleThruster;
         public InputAction @RotateShip => m_Wrapper.m_InGameControls_RotateShip;
+        public InputAction @FirePrimary => m_Wrapper.m_InGameControls_FirePrimary;
         public InputActionMap Get() { return m_Wrapper.m_InGameControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -205,6 +227,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @RotateShip.started -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnRotateShip;
                 @RotateShip.performed -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnRotateShip;
                 @RotateShip.canceled -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnRotateShip;
+                @FirePrimary.started -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnFirePrimary;
+                @FirePrimary.performed -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnFirePrimary;
+                @FirePrimary.canceled -= m_Wrapper.m_InGameControlsActionsCallbackInterface.OnFirePrimary;
             }
             m_Wrapper.m_InGameControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -215,6 +240,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @RotateShip.started += instance.OnRotateShip;
                 @RotateShip.performed += instance.OnRotateShip;
                 @RotateShip.canceled += instance.OnRotateShip;
+                @FirePrimary.started += instance.OnFirePrimary;
+                @FirePrimary.performed += instance.OnFirePrimary;
+                @FirePrimary.canceled += instance.OnFirePrimary;
             }
         }
     }
@@ -223,5 +251,6 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         void OnToggleThruster(InputAction.CallbackContext context);
         void OnRotateShip(InputAction.CallbackContext context);
+        void OnFirePrimary(InputAction.CallbackContext context);
     }
 }

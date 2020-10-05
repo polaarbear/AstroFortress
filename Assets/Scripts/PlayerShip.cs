@@ -9,7 +9,6 @@ using UnityEngine.SocialPlatforms;
 
 public class PlayerShip : MonoBehaviour
 {
-    private GameControls gameControls;
     [SerializeField] private Rigidbody2D shipBody = null;
     [SerializeField] private Thruster mainThruster = null;
     [SerializeField] private Thruster[] sideThrusters = new Thruster[2];
@@ -27,8 +26,6 @@ public class PlayerShip : MonoBehaviour
     private void Awake()
     {
         name = "PlayerShip";
-        gameControls = new GameControls();
-        gameControls.InGameControls.ToggleThruster.performed += toggleThruster => mainThrusterEngaged = !mainThrusterEngaged;
         mainThruster.Toggle(false);
         foreach (Thruster sideThrust in sideThrusters)
             sideThrust.Toggle(false);
@@ -40,21 +37,10 @@ public class PlayerShip : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-        gameControls.InGameControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        gameControls.InGameControls.Disable();
-    }
-
     // Update is called once per frame
     void Update()
     {
         float deltaTime = Time.deltaTime;
-        CheckRotation(deltaTime);
         CheckThrusters(deltaTime);
     }
 
@@ -83,9 +69,8 @@ public class PlayerShip : MonoBehaviour
         }
     }
 
-    private void CheckRotation(float deltaTime)
+    public void CheckRotation(float deltaTime, float rotationFactor)
     {
-        rotationFactor = gameControls.InGameControls.RotateShip.ReadValue<float>();
         if (Mathf.Abs(rotationFactor) > 0.2f)
         {
             transform.Rotate(new Vector3(0f, 0f, rotationFactor * boosterPower * deltaTime));
@@ -99,7 +84,7 @@ public class PlayerShip : MonoBehaviour
             if (mainThrusterReady)
             {
                 mainThrusterReady = false;
-                shipBody.velocity += GetThrustVector() * thrusterPower;
+                shipBody.velocity += GetFacingVector() * thrusterPower;
             }
             else
             {
@@ -134,10 +119,25 @@ public class PlayerShip : MonoBehaviour
         }
     }
 
-    private Vector2 GetThrustVector()
+    private Vector2 GetFacingVector()
     {
         float thrustY = Mathf.Tan(transform.rotation.z * Mathf.Deg2Rad);
         float thrustX = 1f;
         return transform.TransformDirection(new Vector2(thrustX, thrustY)).normalized;
+    }
+
+    public void ToggleThrusters()
+    {
+        mainThrusterEngaged = !mainThrusterEngaged;
+    }
+
+    public void FireLasers(List<Laser> firedLasers)
+    {
+        for(int laser = 0; laser < firedLasers.Count; laser++)
+        {
+            Laser thisLaser = firedLasers[laser];
+            thisLaser.transform.position = laserCannons[laser].transform.position;
+            thisLaser.transform.rotation = transform.rotation;            
+        }
     }
 }
